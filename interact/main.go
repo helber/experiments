@@ -19,22 +19,20 @@ type domains struct {
 
 func waitPropagation(propagation chan bool) {
 	log.Println("Wait for propagation")
-	time.Sleep(5 * time.Second)
+	time.Sleep(1 * time.Second)
 	propagation <- true
 }
 
 func parseTopic(topic string) (domains, error) {
-	var pos int
 	keyName := ""
 	keyValue := ""
-	for _, item := range strings.Split(topic, "\n") {
-		if pos == 3 {
+	for i, item := range strings.Split(topic, "\n") {
+		if i == 3 {
 			keyName = strings.Split(item, " ")[0]
 		}
-		if pos == 5 {
+		if i == 5 {
 			keyValue = strings.Split(item, " ")[0]
 		}
-		pos++
 	}
 	return domains{keyName, keyValue}, nil
 }
